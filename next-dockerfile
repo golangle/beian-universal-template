@@ -1,0 +1,11 @@
+# 构建自己的定制化容器
+# 基于beian-universal-template镜像，添加配置文件
+# Dockerfile路径：next-dockerfile
+# 构建命令：docker build -t beian-universal-template-with-conf:latest -f next-dockerfile .
+# 运行命令：docker run -p 8801:8901 -v /etc/localtime:/etc/localtime:ro -v /etc/timezone:/etc/timezone:ro -d --name beian beian-universal-template-with-conf:latest
+# 注意：需要将conf目录放在与next-dockerfile同级目录下，以便COPY命令能够正确复制配置文件到镜像中。
+# conf/目录下放置自定义的配置文件hosts.txt,包含域名备案信息。
+ 
+# Dockerfile内容如下：
+FROM beian-universal-template:latest
+COPY conf/ /conf

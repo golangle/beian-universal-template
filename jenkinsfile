@@ -1,0 +1,33 @@
+/* groovylint-disable CompileStatic */
+
+// Jenkinsfile for beian-universal-template project
+// 在dockerfile中使用两阶段构建方式，不用在构建主机上安装golang环境，直接使用docker构建镜像即可。
+// 构建完成后，直接将镜像推送到私有仓库即可。
+pipeline {
+
+    agent any
+
+    environment {
+        IMAGE_NAME = 'beian-universal-template:latest'
+        GIT_PROJECT_NAME = 'beian-universal-template'
+        GIT_URL_PATH = 'https://github.com/golangle'
+    }
+
+    stages {
+      
+        stage('Pull Project Code') {
+            steps {
+                git url:"${GIT_URL_PATH}/${GIT_PROJECT_NAME}",
+                credentialsId: 'github-user-token',
+                branch: 'main'
+            }
+        }
+    
+        stage('Build Docker Images') {
+            steps {
+                //此处需要加上 --no-cache，防止存在相同的镜像，新的无法生成。
+                sh "docker build -t ${IMAGE_NAME} .  --no-cache"
+            }
+        }
+   }
+}
