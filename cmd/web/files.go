@@ -50,8 +50,8 @@ var templateInstance *template.Template
 
 =========================================================================================================================
 */
-func loadConfigFile(filePath string) {
-	file, err := os.Open(filePath)
+func loadConfigFile() {
+	file, err := os.Open(configPath)
 	if err != nil {
 		fmt.Println("打开文件失败:", err)
 		return

@@ -14,7 +14,7 @@ type application struct {
 
 func main() {
 
-	loadConfigFile(configPath)
+	loadConfigFile()
 	loadData()
 
 	addr := flag.String("addr", ":8901", "服务运行端口")
